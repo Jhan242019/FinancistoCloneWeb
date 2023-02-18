@@ -1,0 +1,34 @@
+﻿<h1>Crear Cuenta</h1>
+
+
+<form class="row" action="/account/save">
+    <div class="col-12">
+        <label class="form-label">Tipo</label>
+        <select name="Type" class="form-control">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Credito">Credito</option>
+            <option value="Debito">Debito</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Nombre</label>
+        <input class="form-control" name="Name" />
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Divisa</label>
+        <select class="form-control" name="Currency">
+            <option value="Soles">Soles</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Saldo Inicial</label>
+        <input type="number" class="form-control" name="Amount" />
+    </div>
+    <div class="col-12">
+        <br />
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </div>
+</form>

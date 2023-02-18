@@ -1,0 +1,46 @@
+﻿
+<h1 class="">Accounts</h1>
+
+<a href="/account/create" class="btn btn-success">Crear Cuenta</a>
+<br />
+<br />
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Tipo</th>
+            <th>Nombre</th>
+            <th>Divisa</th>
+            <th>Saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            List<Account> accounts = ((List<Account>)ViewBag.Accounts);
+            for (var i = 0; i < accounts.Count; i++)
+            {
+                var item = accounts[i]; // recorremos un array
+
+                <tr>
+                    <td></td>
+                    <td>@item.Type</td>
+                    <td>@item.Name</td>
+                    <td>@item.Currency</td>
+                    <td>S/. @item.Amount</td>
+                </tr>
+            }
+
+            //foreach (var item in accounts)
+            //{
+            //    <tr>
+            //        <td></td>
+            //        <td>@item.Type</td>
+            //        <td>@item.Name</td>
+            //        <td>@item.Currency</td>
+            //        <td>S/. @item.Amount</td>
+            //    </tr>
+            //}
+        }
+    </tbody>
+</table>
