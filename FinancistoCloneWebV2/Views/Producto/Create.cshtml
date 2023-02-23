@@ -1,0 +1,43 @@
+﻿@{
+    var producto = (Producto)Model;
+    //var categoria = (List<Categoria>)ViewBag.Categorias;
+}
+
+<h1>Crear Producto</h1>
+
+<form class="row" action="/producto/create" method="post">
+    <div class="col-12">
+        <label class="form-label">Nombre</label>
+        <input class="form-control" name="Nombre" value="@producto.Nombre"/>
+        @Html.ValidationMessage("Nombre")
+    </div>
+    <div class="col-12">
+        <label class="form-label">Categoria</label>
+        <select name="IdCategoria" class="form-control">
+            <option value="">--Selecciona una opcion--</option>
+            @foreach (var item in ViewBag.Categorias)
+            {
+                <option selected value="@item.Id">@item.Nombre</option>
+            }
+@*
+            <option value="Laptops">Laptops</option>
+            <option value="Impresoras">Impresoras</option>
+            <option value="Accesorios">Accesorios</option>*@
+        </select>
+        @Html.ValidationMessage("Categoria")
+    </div>
+    <div class="col-12">
+        <label class="form-label">Proveedor</label>
+        <input class="form-control" name="Proveedor" value="@producto.Proveedor" />
+        @Html.ValidationMessage("Proveedor")
+    </div>
+    <div class="col-12">
+        <label class="form-label">Costo</label>
+        <input type="number" class="form-control" name="Costo" value="@producto.Costo"/>
+        @Html.ValidationMessage("Costo")
+    </div>
+    <div class="col-12">
+        <br />
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </div>
+</form>

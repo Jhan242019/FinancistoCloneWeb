@@ -14,6 +14,8 @@ namespace FinancistoCloneWebV2.Models
 
         //Propiedades
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         // Sobreescribir método
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,6 +24,8 @@ namespace FinancistoCloneWebV2.Models
 
             // pasar la isntancia para hacer uso de la configuración de cada clase
             modelBuilder.ApplyConfiguration(new AccountMap());
+            modelBuilder.ApplyConfiguration(new ProductoMap());
+            modelBuilder.ApplyConfiguration(new CategoriaMap());
         }
     }
 }

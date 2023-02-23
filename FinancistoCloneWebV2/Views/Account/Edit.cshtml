@@ -2,22 +2,27 @@
     var account = (Account)Model;
 }
 
-<h1>Crear Cuenta</h1>
+<h1>Editar Cuenta</h1>
 
-
-<form class="row" action="/account/create" method="post">
+<form class="row" action="/account/edit" method="post">
     <div class="col-12">
+        <input type="hidden" name="Id" value="@account.Id"/>
+
         <label class="form-label">Tipo</label>
         <select name="Type" class="form-control">
-            <option value="Efectivo">Efectivo</option>
-            <option value="Credito">Credito</option>
-            <option value="Debito">Debito</option>
+            @foreach (var item in ViewBag.Types)
+            {
+                if (account.Type == item)
+                {
+                    <option value="@item" selected>@item</option>
+                }
+            }
         </select>
     </div>
 
     <div class="col-12">
         <label class="form-label">Nombre</label>
-        <input class="form-control" name="Name" />
+        <input class="form-control" name="Name" value="@account.Name" />
         @Html.ValidationMessage("Name")
     </div>
 
@@ -31,7 +36,6 @@
     <div class="col-12">
         <label class="form-label">Saldo Inicial</label>
         <input type="number" class="form-control" name="Amount" value="@account.Amount" />
-        @Html.ValidationMessage("Amount")
     </div>
     <div class="col-12">
         <br />

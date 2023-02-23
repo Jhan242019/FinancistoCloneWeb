@@ -1,0 +1,39 @@
+﻿@{
+    List<Producto> productos = (List<Producto>)Model;
+}
+
+<h1>Productos</h1>
+
+<a href="/producto/create" class="btn btn-success">Crear producto</a>
+<br /><br />
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Proveedor</th>
+            <th>Costo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach(var item in productos)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Categoria.Nombre</td>
+                    <td>@item.Proveedor</td>
+                    <td>S/. @item.Costo</td>
+                    <td>
+                        <a href="producto/edit?id=@item.Id">Editar</a> |
+                        <a href="producto/delete?id=@item.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

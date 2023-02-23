@@ -1,4 +1,7 @@
 ﻿
+@{
+    List<Account> accounts = (List<Account>)Model;
+}
 <h1 class="">Accounts</h1>
 
 <a href="/account/create" class="btn btn-success">Crear Cuenta</a>
@@ -13,34 +16,25 @@
             <th>Nombre</th>
             <th>Divisa</th>
             <th>Saldo</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @{
-            List<Account> accounts = ((List<Account>)ViewBag.Accounts);
-            for (var i = 0; i < accounts.Count; i++)
+        @{            
+            foreach (var item in accounts)
             {
-                var item = accounts[i]; // recorremos un array
-
                 <tr>
                     <td></td>
                     <td>@item.Type</td>
                     <td>@item.Name</td>
                     <td>@item.Currency</td>
                     <td>S/. @item.Amount</td>
+                    <td>
+                        <a href="/account/edit?id=@item.Id">Editar</a> |
+                        <a href="/account/delete?id=@item.Id">Eliminar</a>
+                    </td>
                 </tr>
             }
-
-            //foreach (var item in accounts)
-            //{
-            //    <tr>
-            //        <td></td>
-            //        <td>@item.Type</td>
-            //        <td>@item.Name</td>
-            //        <td>@item.Currency</td>
-            //        <td>S/. @item.Amount</td>
-            //    </tr>
-            //}
         }
     </tbody>
 </table>
