@@ -24,8 +24,10 @@
             foreach (var item in accounts)
             {
                 <tr>
-                    <td></td>
-                    <td>@item.Type</td>
+                    <td class="col-2">
+                        <img class="img-fluid" src="@item.ImagePath" alt="Imagen de la cuenta">
+                    </td>
+                    <td>@item.Type.Nombre</td>
                     <td>@item.Name</td>
                     <td>@item.Currency</td>
                     <td>S/. @item.Amount</td>

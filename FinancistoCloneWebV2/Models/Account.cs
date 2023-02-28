@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinancistoCloneWebV2.Models
 {
     public class Account
     {
         public int Id { get; set; } 
-        public string Type { get; set; }
+        public int TypeId { get; set; }
 
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string Name { get; set; }   
@@ -13,5 +14,9 @@ namespace FinancistoCloneWebV2.Models
 
         [Required]
         public decimal Amount { get; set; }
+
+        public string ImagePath { get; set; }
+
+        public Types Type { get; set; }
     }
 }

@@ -1,17 +1,23 @@
 ﻿@{
     var account = (Account)Model;
+    var type = (List<Types>)ViewBag.Types;
 }
 
 <h1>Crear Cuenta</h1>
 
 
-<form class="row" action="/account/create" method="post">
+<form class="row" action="/account/create" enctype="multipart/form-data" method="post">
+
+    <input type="file" name="Image"/>
+
     <div class="col-12">
         <label class="form-label">Tipo</label>
-        <select name="Type" class="form-control">
-            <option value="Efectivo">Efectivo</option>
-            <option value="Credito">Credito</option>
-            <option value="Debito">Debito</option>
+        <select name="TypeId" class="form-control">
+            <option value="">-- Seleccione un tipo --</option>
+            @foreach (var item in type)
+            {
+                <option value="@item.Id">@item.Nombre</option>
+            }
         </select>
     </div>
 

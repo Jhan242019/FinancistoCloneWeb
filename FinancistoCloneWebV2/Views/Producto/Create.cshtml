@@ -14,15 +14,11 @@
     <div class="col-12">
         <label class="form-label">Categoria</label>
         <select name="IdCategoria" class="form-control">
-            <option value="">--Selecciona una opcion--</option>
+            <option value="" selected>--Selecciona una opcion--</option>
             @foreach (var item in ViewBag.Categorias)
             {
-                <option selected value="@item.Id">@item.Nombre</option>
+                <option value="@item.Nombre">@item.Nombre</option>
             }
-@*
-            <option value="Laptops">Laptops</option>
-            <option value="Impresoras">Impresoras</option>
-            <option value="Accesorios">Accesorios</option>*@
         </select>
         @Html.ValidationMessage("Categoria")
     </div>

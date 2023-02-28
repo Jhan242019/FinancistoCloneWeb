@@ -14,6 +14,7 @@ namespace FinancistoCloneWebV2.Models
 
         //Propiedades
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Types> Types { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
 
@@ -26,6 +27,7 @@ namespace FinancistoCloneWebV2.Models
             modelBuilder.ApplyConfiguration(new AccountMap());
             modelBuilder.ApplyConfiguration(new ProductoMap());
             modelBuilder.ApplyConfiguration(new CategoriaMap());
+            modelBuilder.ApplyConfiguration(new TypeMap());
         }
     }
 }

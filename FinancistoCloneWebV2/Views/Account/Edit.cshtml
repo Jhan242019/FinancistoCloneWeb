@@ -9,12 +9,16 @@
         <input type="hidden" name="Id" value="@account.Id"/>
 
         <label class="form-label">Tipo</label>
-        <select name="Type" class="form-control">
+        <select name="TypeId" class="form-control">
             @foreach (var item in ViewBag.Types)
             {
-                if (account.Type == item)
+                if (account.TypeId == item.Id)
                 {
-                    <option value="@item" selected>@item</option>
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+                else
+                {
+                    <option value="@item.Id">@item.Nombre</option>
                 }
             }
         </select>

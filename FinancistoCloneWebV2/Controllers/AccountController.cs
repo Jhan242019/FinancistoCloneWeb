@@ -1,8 +1,12 @@
 ﻿using FinancistoCloneWebV2.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -12,44 +16,60 @@ namespace FinancistoCloneWebV2.Controllers
     public class AccountController : Controller
     {
         private FinancistoContext _context;
-        public AccountController(FinancistoContext context)
+        private IHostEnvironment _hostEnv;
+        public AccountController(FinancistoContext context, IHostEnvironment hostEnv)
         {
             _context = context;
+            _hostEnv = hostEnv;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var account = _context.Accounts.ToList();
+            var account = _context.Accounts
+                .Include(o => o.Type)
+                .ToList();
             return View("Index", account);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.Types = _context.Types.ToList();
             return View("Create", new Account());
         }
 
         [HttpPost]
-        public ActionResult Create(Account account)
+        public ActionResult Create(Account account, IFormFile image)
         {
-            // Es una forma de validar campos
-            //if (account.Name =="" || account.Name==null)
-            //    ModelState.AddModelError("Name", "El campo nombre es obligatorio");
-
             if (ModelState.IsValid)
             {
+                // Guardar archivo en el servidor
+
+                if (image != null && image.Length > 0)
+                {
+                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+                    var ruta = @"\files\" + image.FileName;
+
+                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                    {
+                        image.CopyTo(strem);
+                        account.ImagePath = ruta;
+                    }
+
+                }
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Types = _context.Types.ToList();
             return View("Create", account);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ViewBag.Types = new List<String> { "Efectivo", "Credito", "Debito", "Billetera" };
+            ViewBag.Types = _context.Types.ToList();
             var account = _context.Accounts.Where(o => o.Id == id).FirstOrDefault();
             return View("Edit", account);
         }
@@ -68,6 +88,7 @@ namespace FinancistoCloneWebV2.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Types = _context.Types.ToList();
             return View("Edit", account);
         }
         [HttpGet]
