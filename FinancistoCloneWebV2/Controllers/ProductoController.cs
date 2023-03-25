@@ -1,4 +1,5 @@
 ﻿using FinancistoCloneWebV2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 
 namespace FinancistoCloneWebV2.Controllers
 {
+    [Authorize]
     public class ProductoController : Controller
     {
         private FinancistoContext _context;

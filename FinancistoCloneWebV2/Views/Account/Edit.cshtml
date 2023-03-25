@@ -4,10 +4,20 @@
 
 <h1>Editar Cuenta</h1>
 
-<form class="row" action="/account/edit" method="post">
-    <div class="col-12">
-        <input type="hidden" name="Id" value="@account.Id"/>
+<form class="row" action="/account/edit" enctype="multipart/form-data" method="post">
 
+    <input type="hidden" name="Id" value="@account.Id" />
+    <input type="hidden" name="UserId" value="@account.UserId" />
+    <input type="hidden" name="ImagePath" value="@account.ImagePath" />
+
+    <div class="col-12">
+        <label class="form-label">Imagen</label>
+        <div class="col-12">
+            <img src="@account.ImagePath" width="150" />
+        </div>
+        <input type="file" name="Image"/>
+    </div>
+    <div class="col-12">
         <label class="form-label">Tipo</label>
         <select name="TypeId" class="form-control">
             @foreach (var item in ViewBag.Types)

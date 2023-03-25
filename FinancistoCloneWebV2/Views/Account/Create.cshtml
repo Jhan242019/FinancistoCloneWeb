@@ -3,13 +3,14 @@
     var type = (List<Types>)ViewBag.Types;
 }
 
-<h1>Crear Cuenta</h1>
+<h2 class="text-center">Crear Cuenta</h2>
 
 
 <form class="row" action="/account/create" enctype="multipart/form-data" method="post">
 
-    <input type="file" name="Image"/>
-
+    <div class="col-12">
+        <input type="file" name="Image" />
+    </div>
     <div class="col-12">
         <label class="form-label">Tipo</label>
         <select name="TypeId" class="form-control">
@@ -40,7 +41,7 @@
         @Html.ValidationMessage("Amount")
     </div>
     <div class="col-12">
-        <br />
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-success" style="margin:1rem 0rem">Guardar</button>
+        <a class="btn btn-danger" href="/account">Cancelar</a>
     </div>
 </form>

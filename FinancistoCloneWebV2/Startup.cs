@@ -1,4 +1,5 @@
 using FinancistoCloneWebV2.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,9 +27,16 @@ namespace FinancistoCloneWebV2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddDbContext<FinancistoContext>(
                 o => o.UseSqlServer(Configuration.GetConnectionString("DevConnection"))
             );
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => 
+                {
+                    o.LoginPath = "/Auth/Login";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,7 @@ namespace FinancistoCloneWebV2
 
             app.UseRouting();
 
+            app.UseAuthentication(); //esto se agrega y se pone antes
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

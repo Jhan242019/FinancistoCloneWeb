@@ -1,0 +1,39 @@
+﻿@{
+    var transaction = (Transaction)Model;
+    var account = (Account)ViewBag.Account;
+
+}
+
+<h2 class="text-center">Crear Transacción - <span class="text-info">@account.Name</span></h2>
+
+
+<form class="row" action="/transaction/transaction_create" method="post">
+    <input type="hidden" name="CuentaId" value="@account.Id" />
+
+    <div class="col-12">
+        <label class="form-label">Tipo</label>
+        <select name="Tipo" class="form-control">
+            <option value="">-- Seleccione un tipo --</option>
+            <option value="Gasto">Gasto</option>
+            <option value="Ingreso">Ingreso</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Fecha</label>
+        <input type="datetime-local" class="form-control" name="FechaHora" />
+    </div>
+    <div class="col-12">
+        <label class="form-label">Motivo</label>
+        <textarea class="form-control" name="Motivo" value="@transaction.Motivo"></textarea>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Monto</label>
+        <input type="number" class="form-control" name="Monto" value="@transaction.Monto" />
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success" style="margin:1rem 0rem">Guardar</button>
+        <a class="btn btn-danger" href="/account">Cancelar</a>
+    </div>
+</form>

@@ -1,4 +1,5 @@
 ﻿using FinancistoCloneWebV2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,16 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FinancistoCloneWebV2.Controllers
 {
-    public class AccountController : Controller
+    [Authorize]
+    public class AccountController : BaseController
     {
         private FinancistoContext _context;
         private IHostEnvironment _hostEnv;
-        public AccountController(FinancistoContext context, IHostEnvironment hostEnv)
+        public AccountController(FinancistoContext context, IHostEnvironment hostEnv) : base(context)
         {
             _context = context;
             _hostEnv = hostEnv;
@@ -27,6 +30,7 @@ namespace FinancistoCloneWebV2.Controllers
         public ActionResult Index()
         {
             var account = _context.Accounts
+                .Where(o => o.UserId == LoggedUser().Id) //para traer las cuentas del usuario logueado
                 .Include(o => o.Type)
                 .ToList();
             return View("Index", account);
@@ -58,6 +62,7 @@ namespace FinancistoCloneWebV2.Controllers
                     }
 
                 }
+                account.UserId = LoggedUser().Id;
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,20 +75,30 @@ namespace FinancistoCloneWebV2.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.Types = _context.Types.ToList();
-            var account = _context.Accounts.Where(o => o.Id == id).FirstOrDefault();
+            var account = _context.Accounts
+                .Where(o => o.Id == id)
+                .FirstOrDefault();
             return View("Edit", account);
         }
 
         [HttpPost]
-        public ActionResult Edit(Account account)
+        public ActionResult Edit(Account account, IFormFile image)
         { 
-            // Cuando queremos actualizar solo algunos campos
-            //var DBaccount = _context.Accounts.Where(o => o.Id == account.Id).FirstOrDefault();
-            //DBaccount.Name = account.Name;
-            //DBaccount.Amount = account.Amount;
-
             if (ModelState.IsValid)
             {
+                if (image != null && image.Length > 0)
+                {
+                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+                    var ruta = @"\files\" + image.FileName;
+
+                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                    {
+                        image.CopyTo(strem);
+                        account.ImagePath = ruta;
+                    }
+
+                }
+                account.UserId = LoggedUser().Id;
                 _context.Accounts.Update(account);
                 _context.SaveChanges();
                 return RedirectToAction("Index");

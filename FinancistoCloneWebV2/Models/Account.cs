@@ -16,6 +16,7 @@ namespace FinancistoCloneWebV2.Models
         public decimal Amount { get; set; }
 
         public string ImagePath { get; set; }
+        public int UserId { get; set; }
 
         public Types Type { get; set; }
     }

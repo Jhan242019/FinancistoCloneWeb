@@ -17,6 +17,8 @@ namespace FinancistoCloneWebV2.Models
         public DbSet<Types> Types { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         // Sobreescribir método
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,6 +30,8 @@ namespace FinancistoCloneWebV2.Models
             modelBuilder.ApplyConfiguration(new ProductoMap());
             modelBuilder.ApplyConfiguration(new CategoriaMap());
             modelBuilder.ApplyConfiguration(new TypeMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new TransactionMap());
         }
     }
 }
