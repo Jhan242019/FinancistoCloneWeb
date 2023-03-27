@@ -5,6 +5,8 @@
     <h2 class="text-center">Cuentas</h2>
 </div>
 
+<link href="~/css/mystyle.css" rel="stylesheet">
+
 
 <a href="/account/create" class="btn btn-success" style="margin:1rem 0rem">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -35,7 +37,7 @@
                     <td>@item.Type.Nombre</td>
                     <td>@item.Name</td>
                     <td>@item.Currency</td>
-                    <td>S/. @item.Amount</td>
+                    <td class="@(item.Amount <= 0 ? "text-danger"  : "text-success")">S/. @item.Amount</td>
                     <td>
                         <a class="btn btn-outline-info" href="/transaction/transactions?cuentaId=@item.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">

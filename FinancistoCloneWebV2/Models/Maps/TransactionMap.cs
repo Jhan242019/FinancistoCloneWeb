@@ -10,10 +10,6 @@ namespace FinancistoCloneWebV2.Models.Maps
         {
             builder.ToTable("Transaction");
             builder.HasKey(x => x.Id);
-
-            builder.HasOne(o => o.Account)
-                .WithMany()
-                .HasForeignKey(o => o.CuentaId);
         }
     }
 }

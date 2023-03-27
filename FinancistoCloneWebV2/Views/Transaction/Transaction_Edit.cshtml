@@ -3,9 +3,9 @@
     var account = (Account)ViewBag.Account;
 }
 
-<h2 class="text-center">Crear Transacción - <span class="text-info">@account.Name</span></h2>
+<h2 class="text-center">Editar Transacción - <span class="text-info">@account.Name</span></h2>
 
-@if(account.Amount < 0)
+@if (account.Amount < 0)
 {
     <div class="col-12 m-3">
         <p class="text-center">Saldo: <span class="text-danger">S/. @account.Amount</span></p>
@@ -18,16 +18,26 @@ else
     </div>
 }
 
-
-<form class="row" action="/transaction/transaction_create" method="post">
+<form class="row" action="/transaction/transaction_edit" method="post">
+    
+    <input type="hidden" name="Id" value="@transaction.Id" />
     <input type="hidden" name="CuentaId" value="@account.Id" />
 
     <div class="col-12">
         <label class="form-label">Tipo</label>
-        <select name="Tipo" class="form-control" value="@transaction.Tipo" required>
-            <option value="">-- Seleccione un tipo --</option>
-            <option value="Gasto">Gasto</option>
-            <option value="Ingreso">Ingreso</option>
+        <select name="Tipo" class="form-control" required>
+            @foreach (var item in ViewBag.TipoTransaccion)
+            {
+                if (transaction.Tipo == item)
+                {
+                    <option value="@transaction.Tipo" selected>@transaction.Tipo</option>
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+
         </select>
         <div class="text-danger">
             @Html.ValidationMessage("Tipo")
@@ -36,7 +46,7 @@ else
 
     <div class="col-12">
         <label class="form-label">Fecha</label>
-        <input type="datetime-local" class="form-control" name="FechaHora" value="@transaction.FechaHora" required />
+        <input type="datetime-local" class="form-control" name="FechaHora" value="@transaction.FechaHora.ToString("yyyy-MM-dd HH:mm")" required />
     </div>
     <div class="col-12">
         <label class="form-label">Motivo</label>
@@ -50,7 +60,7 @@ else
         <label class="form-label">Monto</label>
         <div class="input-group mb-3">
             <span class="input-group-text">S/.</span>
-            <input type="text" class="form-control" name="Monto" value="@transaction.Monto" >
+            <input type="number" class="form-control" name="Monto" value="@string.Format("{0:N2}", Math.Abs(transaction.Monto))">
             <span class="input-group-text">.00</span>
         </div>
         <div class="text-danger">

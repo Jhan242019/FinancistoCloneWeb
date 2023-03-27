@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinancistoCloneWebV2.Models
@@ -19,5 +20,6 @@ namespace FinancistoCloneWebV2.Models
         public int UserId { get; set; }
 
         public Types Type { get; set; }
+        public List<Transaction> Transactions { get; set; }
     }
 }

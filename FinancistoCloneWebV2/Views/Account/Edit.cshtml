@@ -49,10 +49,10 @@
 
     <div class="col-12">
         <label class="form-label">Saldo Inicial</label>
-        <input type="number" class="form-control" name="Amount" value="@account.Amount" />
+        <input type="number" class="form-control" name="Amount" value="@account.Amount" readonly/>
     </div>
     <div class="col-12">
-        <br />
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-success" style="margin:1rem 0rem;">Guardar</button>
+        <a class="btn btn-danger" href="/account">Cancelar</a>
     </div>
 </form>

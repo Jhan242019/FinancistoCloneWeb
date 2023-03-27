@@ -32,7 +32,9 @@ namespace FinancistoCloneWebV2.Controllers
             var account = _context.Accounts
                 .Where(o => o.UserId == LoggedUser().Id) //para traer las cuentas del usuario logueado
                 .Include(o => o.Type)
+                .OrderByDescending(o => o.Id)
                 .ToList();
+
             return View("Index", account);
         }
 
@@ -46,25 +48,25 @@ namespace FinancistoCloneWebV2.Controllers
         [HttpPost]
         public ActionResult Create(Account account, IFormFile image)
         {
+            account.UserId = LoggedUser().Id;
+
             if (ModelState.IsValid)
             {
-                // Guardar archivo en el servidor
+                account.ImagePath = SaveImage(image);
 
-                if (image != null && image.Length > 0)
+                account.Transactions = new List<Transaction>
                 {
-                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
-                    var ruta = @"\files\" + image.FileName;
-
-                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                    new Transaction
                     {
-                        image.CopyTo(strem);
-                        account.ImagePath = ruta;
+                        FechaHora = DateTime.Now,
+                        Tipo = "Ingreso",
+                        Monto = account.Amount,
+                        Motivo = "Monto Inicial"
                     }
-
-                }
-                account.UserId = LoggedUser().Id;
+                };
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.Types = _context.Types.ToList();
@@ -83,21 +85,14 @@ namespace FinancistoCloneWebV2.Controllers
 
         [HttpPost]
         public ActionResult Edit(Account account, IFormFile image)
-        { 
+        {
             if (ModelState.IsValid)
             {
-                if (image != null && image.Length > 0)
+                if (SaveImage(image) != null)
                 {
-                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
-                    var ruta = @"\files\" + image.FileName;
-
-                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
-                    {
-                        image.CopyTo(strem);
-                        account.ImagePath = ruta;
-                    }
-
+                    account.ImagePath = SaveImage(image);
                 }
+
                 account.UserId = LoggedUser().Id;
                 _context.Accounts.Update(account);
                 _context.SaveChanges();
@@ -113,6 +108,22 @@ namespace FinancistoCloneWebV2.Controllers
             _context.Accounts.Remove(DBaccount);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private string SaveImage(IFormFile image)
+        {
+            if (image != null && image.Length > 0)
+            {
+                var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+                var ruta = @"\files\" + image.FileName;
+
+                using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                {
+                    image.CopyTo(strem);
+                    return ruta;
+                }
+            }
+            return null;
         }
     }
 }

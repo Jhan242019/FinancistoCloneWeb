@@ -7,10 +7,11 @@
 
 
 <form class="row" action="/account/create" enctype="multipart/form-data" method="post">
-
-    <div class="col-12">
-        <input type="file" name="Image" />
+    <div class="input-group col-12">
+        <input type="file" class="form-control" id="inputGroupFile02" name="Image">
+        <label class="input-group-text" for="inputGroupFile02">Imagen</label>
     </div>
+
     <div class="col-12">
         <label class="form-label">Tipo</label>
         <select name="TypeId" class="form-control">
@@ -37,7 +38,11 @@
 
     <div class="col-12">
         <label class="form-label">Saldo Inicial</label>
-        <input type="number" class="form-control" name="Amount" value="@account.Amount" />
+        <div class="input-group mb-3">
+            <span class="input-group-text">S/.</span>
+            <input type="number" class="form-control" name="Amount" value="@account.Amount" ">
+            <span class="input-group-text">.00</span>
+        </div>
         @Html.ValidationMessage("Amount")
     </div>
     <div class="col-12">
