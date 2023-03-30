@@ -54,16 +54,25 @@ namespace FinancistoCloneWebV2.Controllers
             {
                 account.ImagePath = SaveImage(image);
 
-                account.Transactions = new List<Transaction>
+                if (account.TypeId == 3)
                 {
-                    new Transaction
+                    account.CreditLimit = account.Amount;
+                    account.Amount = 0;
+                }
+
+                if (account.Amount > 0)
+                {
+                    account.Transactions = new List<Transaction>
                     {
-                        FechaHora = DateTime.Now,
-                        Tipo = "Ingreso",
-                        Monto = account.Amount,
-                        Motivo = "Monto Inicial"
-                    }
-                };
+                        new Transaction
+                        {
+                            FechaHora = DateTime.Now,
+                            Tipo = "Ingreso",
+                            Monto = account.Amount,
+                            Motivo = "Monto Inicial"
+                        }
+                    };
+                }
                 _context.Accounts.Add(account);
                 _context.SaveChanges();
 
@@ -123,6 +132,7 @@ namespace FinancistoCloneWebV2.Controllers
                     return ruta;
                 }
             }
+
             return null;
         }
     }

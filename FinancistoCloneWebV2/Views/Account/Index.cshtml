@@ -1,11 +1,9 @@
 ﻿@{
-    List<Account> accounts = (List<Account>)Model;
+    var accounts = (List<Account>)Model;
 }
 <div class="">
     <h2 class="text-center">Cuentas</h2>
 </div>
-
-<link href="~/css/mystyle.css" rel="stylesheet">
 
 
 <a href="/account/create" class="btn btn-success" style="margin:1rem 0rem">
@@ -15,9 +13,11 @@
     Crear Cuenta
 </a>
 
+<p class="float-right font-weight-bold m-3">Saldo Total: <span class="@(accounts.Sum(o => o.Amount) >= 0 ? " text-success":"text-danger")">S/. @String.Format("{0:N2}",  accounts.Sum(o => o.Amount))</span></p>
+
 <table class="table table-dark table-striped">
     <thead>
-        <tr>
+        <tr class="text-center">
             <th>Imagen</th>
             <th>Tipo</th>
             <th>Nombre</th>
@@ -30,15 +30,30 @@
         @{
             foreach (var item in accounts)
             {
-                <tr>
+                <tr class="text-center">
                     <td class="col-2">
-                        <img class="img-fluid" src="@item.ImagePath" alt="Imagen de la cuenta">
+                        @if (item.ImagePath != null)
+                        {
+                            <img class="img-fluid" src="@item.ImagePath" alt="Imagen de la cuenta">
+                        }
+                        else
+                        {
+                            <img class="img-fluid" src="/files/imageAccount.png" alt="Imagen de la cuenta">
+                        }
+
                     </td>
                     <td>@item.Type.Nombre</td>
                     <td>@item.Name</td>
                     <td>@item.Currency</td>
-                    <td class="@(item.Amount <= 0 ? "text-danger"  : "text-success")">S/. @item.Amount</td>
-                    <td>
+                    <td class="@(item.Amount < 0 ? "text-danger"  : "text-success")">
+                        @if (item.TypeId == 3)
+                        {
+                            <small class="text-info">S/. @string.Format("{0:N2}",item.CreditLimit)</small>
+                            <br />
+                        }
+                        S/. @string.Format("{0:N2}",item.Amount)
+                    </td>
+                    <td class="text-center">
                         <a class="btn btn-outline-info" href="/transaction/transactions?cuentaId=@item.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />

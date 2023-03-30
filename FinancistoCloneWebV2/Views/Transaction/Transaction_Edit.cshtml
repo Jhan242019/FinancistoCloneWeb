@@ -5,18 +5,9 @@
 
 <h2 class="text-center">Editar Transacción - <span class="text-info">@account.Name</span></h2>
 
-@if (account.Amount < 0)
-{
-    <div class="col-12 m-3">
-        <p class="text-center">Saldo: <span class="text-danger">S/. @account.Amount</span></p>
-    </div>
-}
-else
-{
-    <div class="col-12 m-3">
-        <p class="text-center">Saldo: <span class="text-info">S/. @account.Amount</span></p>
-    </div>
-}
+<div class="col-12 m-3">
+    <p class="text-center">Saldo: <span class="@(account.Amount < 0 ? "text-danger":"text-success")">S/. @account.Amount</span></p>
+</div>
 
 <form class="row" action="/transaction/transaction_edit" method="post">
     

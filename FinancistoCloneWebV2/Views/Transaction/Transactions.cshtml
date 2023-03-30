@@ -21,15 +21,9 @@
             </svg>
             Ir a cuentas
         </a>
-        @if (account.Amount > 0)
-        {
-            <p class="m-3" style="float:right">Saldo: <span class="text-info">S/. @account.Amount</span></p>
-        }
-        else
-        {
-            <p class="m-3" style="float:right">Saldo: <span class="text-danger">S/. @account.Amount</span></p>
-        }
 
+        <p class="m-3" style="float:right">Saldo: <span class="@(account.Amount > 0 ? "text-success":"text-danger")">S/. @string.Format("{0:N2}", account.Amount) </span></p>
+        <p class="m-3" style="float:right">Límite de Saldo: <span class="@(account.CreditLimit > 0 ? "text-success":"text-danger")">S/. @string.Format("{0:N2}", account.CreditLimit) </span></p>
     </div>
 </div>
 

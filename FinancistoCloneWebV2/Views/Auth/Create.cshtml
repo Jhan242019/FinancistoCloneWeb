@@ -1,8 +1,6 @@
-﻿
-<form action="/auth/Create" method="post">
-
+﻿<form action="/auth/create" method="post" enctype="multipart/form-data">
     <div class="mb-3">
-        <input type="text" class="form-control" name="Username" placeholder="Usuario">
+        <input type="text" class="form-control " name="Username" placeholder="User">
     </div>
     <div class="mb-3 text-danger">@Html.ValidationMessage("Username")</div>
     <div class="mb-3">

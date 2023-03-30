@@ -25,6 +25,7 @@ namespace FinancistoCloneWebV2.Controllers
                 .ToList();
 
             ViewBag.Account = context.Accounts.First(o => o.Id == cuentaId);
+
             return View(transactions);
         }
         [HttpGet]
@@ -36,6 +37,11 @@ namespace FinancistoCloneWebV2.Controllers
         [HttpPost]
         public IActionResult Transaction_Create(Transaction transaction)
         {
+            ViewBag.Account = context.Accounts.First(o => o.Id == transaction.CuentaId);
+
+            if (transaction.Monto > ViewBag.Account.CreditLimit)
+                ModelState.AddModelError("LimiteCredito","El monto no debe superar el Límite del Saldo");
+
             if (transaction.Monto <= 0)
                 ModelState.AddModelError("Monto1", "Ingrese un valor mayor a 0");
 
@@ -50,10 +56,9 @@ namespace FinancistoCloneWebV2.Controllers
 
                 // Actualizar saldo de la cuenta
                 UpdateAmountAccount(transaction.CuentaId);
-
                 return RedirectToAction("Transactions", new { cuentaId = transaction.CuentaId });
             }
-            ViewBag.Account = context.Accounts.First(o => o.Id == transaction.CuentaId);
+            
             return View(transaction);
         }
 

@@ -5,18 +5,10 @@
 
 <h2 class="text-center">Crear Transacción - <span class="text-info">@account.Name</span></h2>
 
-@if(account.Amount < 0)
-{
-    <div class="col-12 m-3">
-        <p class="text-center">Saldo: <span class="text-danger">S/. @account.Amount</span></p>
-    </div>
-}
-else
-{
-    <div class="col-12 m-3">
-        <p class="text-center">Saldo: <span class="text-info">S/. @account.Amount</span></p>
-    </div>
-}
+<div class="col-12 m-3">
+    <p class="text-center">Saldo: <span class="@(account.Amount < 0 ? "text-danger":"text-success")">S/. @account.Amount</span></p>
+    <p class="text-center">Límite de Saldo: <span class="@(account.CreditLimit > 0 ? "text-success":"text-danger")">S/. @string.Format("{0:N2}", account.CreditLimit) </span></p>
+</div>
 
 
 <form class="row" action="/transaction/transaction_create" method="post">
@@ -55,6 +47,7 @@ else
         </div>
         <div class="text-danger">
             @Html.ValidationMessage("Monto1")
+            @Html.ValidationMessage("LimiteCredito")
         </div>
     </div>
     <div class="col-12">

@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -20,29 +22,40 @@ namespace FinancistoCloneWebV2.Controllers
         private FinancistoContext context;
         private IConfiguration configuration;
 
-        public AuthController(FinancistoContext context, IConfiguration configuration):base(context)
-        { 
+        public AuthController(FinancistoContext context, IConfiguration configuration) : base(context)
+        {
             this.context = context;
             this.configuration = configuration;
         }
 
         [HttpGet]
-        public IActionResult Create() 
-        { 
+        public IActionResult Create()
+        {
             return View(new User());
         }
         [HttpPost]
         public IActionResult Create(User user, string ConfirmPassword)
         {
             user.Password = CreateHash(user.Password);
+
+            var users = context.Users;
+
+            foreach (var item in users) 
+            { 
+                if(item.Username == user.Username)
+                    ModelState.AddModelError("Username", "Usuario ya existe");
+            }
+
             if (user.Password != CreateHash(ConfirmPassword))
             {
                 ModelState.AddModelError("ConfirmPass", "Las contraseñas no coinciden");
             }
-            if (ModelState.IsValid) {
+
+            if (ModelState.IsValid)
+            {
                 context.Users.Add(user);
                 context.SaveChanges();
-                return RedirectToAction("Login","Auth");
+                return RedirectToAction("Login", "Auth");
             }
             return View("Create", user);
         }
@@ -90,8 +103,8 @@ namespace FinancistoCloneWebV2.Controllers
             return RedirectToAction("Login");
         }
 
-        private string CreateHash(string input) 
-        { 
+        private string CreateHash(string input)
+        {
             var sha = SHA256.Create();
             input += configuration.GetValue<string>("Token");
             var hash = sha.ComputeHash(Encoding.Default.GetBytes(input));
