@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,22 @@ namespace FinancistoCloneWebV2.Controllers
             }
             ViewBag.Account = context.Accounts.FirstOrDefault(o => o.Id == transaction.CuentaId);
             return View(transaction);
+        }
+
+        //PDF
+
+        [HttpGet]
+        public IActionResult CreatePDf(int cuentaId)
+        {
+            var transactions = context.Transactions
+                            .Include(o => o.Account)
+                            .Where(o => o.CuentaId == cuentaId)
+                            .OrderByDescending(o => o.FechaHora)
+                            .ToList();
+
+            var account = context.Accounts.Where((o => o.Id == cuentaId)).ToList();
+
+            return new ViewAsPdf("CreatePDf", transactions);
         }
 
         private void UpdateAmountAccount(int cuentaId)

@@ -14,5 +14,7 @@ namespace FinancistoCloneWebV2.Models
         [Required(ErrorMessage = "El motivo es Obligatorio")]
         public string Motivo { get; set; }
         public decimal Monto { get; set; }
+
+        public Account Account { get; set; }
     }
 }

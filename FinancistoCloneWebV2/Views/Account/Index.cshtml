@@ -32,15 +32,7 @@
             {
                 <tr class="text-center">
                     <td class="col-2">
-                        @if (item.ImagePath != null)
-                        {
-                            <img class="img-fluid" src="@item.ImagePath" alt="Imagen de la cuenta">
-                        }
-                        else
-                        {
-                            <img class="img-fluid" src="/files/imageAccount.png" alt="Imagen de la cuenta">
-                        }
-
+                        <img class="img-fluid" src="@item.ImagePath" alt="Imagen de la cuenta">
                     </td>
                     <td>@item.Type.Nombre</td>
                     <td>@item.Name</td>

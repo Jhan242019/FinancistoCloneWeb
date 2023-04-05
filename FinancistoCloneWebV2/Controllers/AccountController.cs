@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -133,7 +134,7 @@ namespace FinancistoCloneWebV2.Controllers
                 }
             }
 
-            return null;
+            return "/files/imageAccount.png";
         }
     }
 }
